@@ -14,8 +14,8 @@ public class Comment extends BaseIdAndTime {
     Post post;
     @ManyToOne
     @JoinColumn(name = "author_id")
-    Member author;
-    String content;
+    private Member author;
+    private String content;
 
     public Comment (Post post, Member author, String content ){
         this.post = post;
