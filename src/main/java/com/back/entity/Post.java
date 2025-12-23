@@ -14,6 +14,7 @@ public class Post extends BaseIdAndTime {
     private Member author;
     private String content;
 
+
     public Post(String title, Member author, String content){
         this.title = title;
         this.author = author;

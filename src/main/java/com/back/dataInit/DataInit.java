@@ -102,11 +102,18 @@ public class DataInit {
         commentService.createComment(post1.get(), user1Member.get(), "댓글1");
         commentService.createComment(post1.get(), user2Member.get(), "댓글2");
         commentService.createComment(post1.get(), user3Member.get(), "댓글3");
+
         commentService.createComment(post2.get(), user2Member.get(), "댓글4");
         commentService.createComment(post2.get(), user2Member.get(), "댓글5");
+
         commentService.createComment(post3.get(), user3Member.get(), "댓글6");
-        commentService.createComment(post3.get(), user1Member.get(), "댓글7");
+        commentService.createComment(post3.get(), user3Member.get(), "댓글7");
+//      commentService.createComment(post3.get(), user1Member.get(), "댓글7");
+//      왜 값이 다른가 했더니 예제와 값이 달랐음 (예제 쪽에 오타인 듯)
+
         commentService.createComment(post4.get(), user1Member.get(), "댓글8");
+
+
 
     }
 }
