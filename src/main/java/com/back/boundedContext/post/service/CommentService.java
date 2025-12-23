@@ -1,11 +1,11 @@
-package com.back.service;
+package com.back.boundedContext.post.service;
 
-import com.back.entity.Comment;
-import com.back.entity.Member;
-import com.back.entity.Post;
-import com.back.entity.enums.ScoreEnum;
-import com.back.repository.CommentRepository;
-import com.back.repository.MemberRepository;
+import com.back.boundedContext.post.entity.Comment;
+import com.back.boundedContext.member.entity.Member;
+import com.back.boundedContext.post.entity.Post;
+import com.back.common.enums.ScoreEnum;
+import com.back.boundedContext.post.repository.CommentRepository;
+import com.back.boundedContext.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
