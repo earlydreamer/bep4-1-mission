@@ -1,6 +1,8 @@
 package com.back.dataInit;
 
 import com.back.entity.Member;
+import com.back.entity.Post;
+import com.back.service.CommentService;
 import com.back.service.MemberService;
 import com.back.service.PostService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,11 +25,13 @@ public class DataInit {
     private final DataInit self;
     private final MemberService memberService;
     private final PostService postService;
+    private final CommentService commentService;
 
-    public DataInit(@Lazy DataInit self, MemberService memberService, PostService postService) {
+    public DataInit(@Lazy DataInit self, MemberService memberService, PostService postService, CommentService commentService) {
         this.self = self;
         this.memberService = memberService;
         this.postService = postService;
+        this.commentService=commentService;
 
     }
 
@@ -36,6 +40,7 @@ public class DataInit {
         return args -> {
             self.makeBaseMembers();
             self.makeBasePosts();
+            self.makeComment();
         };
     }
 
@@ -54,10 +59,13 @@ public class DataInit {
 
     }
 
-    public void makeBasePosts(){
+    public void makeBasePosts() {
         //user1 회원(4번 회원)이 글 3개 작성
         //user2 회원(5번 회원)이 글 2개 작성
         //user3 회원(6번 회원)이 글 1개 작성
+
+        if(postService.count()>0) return;
+
         Optional<Member> user1Member = memberService.findByUsername("user1");
         Optional<Member> user2Member = memberService.findByUsername("user2");
         Optional<Member> user3Member = memberService.findByUsername("user3");
@@ -70,4 +78,35 @@ public class DataInit {
 
     }
 
+    public void makeComment() {
+        //user1 회원이 1번글에 댓글(내용=댓글1) 작성
+        //user2 회원이 1번글에 댓글(내용=댓글2) 작성
+        //user3 회원이 1번글에 댓글(내용=댓글3) 작성
+        //user2 회원이 2번글에 댓글(내용=댓글4) 작성
+        //user2 회원이 2번글에 댓글(내용=댓글5) 작성
+        //user3 회원이 3번글에 댓글(내용=댓글6) 작성
+        //user1 회원이 3번글에 댓글(내용=댓글7) 작성
+        //user1 회원이 4번글에 댓글(내용=댓글8) 작성
+
+        if(commentService.count()>0) return;
+
+        Optional<Member> user1Member = memberService.findByUsername("user1");
+        Optional<Member> user2Member = memberService.findByUsername("user2");
+        Optional<Member> user3Member = memberService.findByUsername("user3");
+
+        Optional<Post> post1 = postService.findByPostId(1);
+        Optional<Post> post2 = postService.findByPostId(2);
+        Optional<Post> post3 = postService.findByPostId(3);
+        Optional<Post> post4 = postService.findByPostId(4);
+
+        commentService.createComment(post1.get(), user1Member.get(), "댓글1");
+        commentService.createComment(post1.get(), user2Member.get(), "댓글2");
+        commentService.createComment(post1.get(), user3Member.get(), "댓글3");
+        commentService.createComment(post2.get(), user2Member.get(), "댓글4");
+        commentService.createComment(post2.get(), user2Member.get(), "댓글5");
+        commentService.createComment(post3.get(), user3Member.get(), "댓글6");
+        commentService.createComment(post3.get(), user1Member.get(), "댓글7");
+        commentService.createComment(post4.get(), user1Member.get(), "댓글8");
+
+    }
 }
