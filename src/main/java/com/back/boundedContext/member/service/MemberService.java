@@ -1,8 +1,8 @@
 package com.back.boundedContext.member.service;
 
 import com.back.boundedContext.member.entity.Member;
-import com.back.common.exception.DomainException;
 import com.back.boundedContext.member.repository.MemberRepository;
+import com.back.common.exception.DomainException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -29,5 +29,13 @@ public class MemberService {
 
     public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
+    }
+
+    public Optional<Member> findById(int authorId) {
+        return memberRepository.findById(authorId);
+    }
+
+    public Member save(Member member) {
+        return memberRepository.save(member);
     }
 }

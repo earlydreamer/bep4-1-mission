@@ -1,4 +1,3 @@
-
 package com.back.boundedContext.member.entity;
 
 
@@ -20,16 +19,11 @@ public class Member extends BaseIdAndTime {
     private String username;
     private String password;
     private String nickname;
-    private long point;
+    @Column(nullable = false)
+    private long point = 0L; // 초기값 설정
 
-
-    /**
-     * 의도적으로 결합도 발생시킨 구조
-     * @param amount
-     * @return
-     */
-    public long increasePoint(long amount) {
-        return this.point += amount;
+    public void increasePoint(long score) {
+        this.point += score; // 실제로 값을 증가시키는지 확인
     }
 
 

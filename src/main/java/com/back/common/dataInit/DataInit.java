@@ -50,6 +50,7 @@ public class DataInit {
         // 이런식으로 검증하면 좀 위험할수도 있어 보이는데
         // transactional이니까 이 코드가 끝까지 실행되면 들어가고 실패하면 통쨰로 롤백됨
         // 다만 데이터가 이후에 변경되거나 삭제되었을 때 이 init 코드가 작동 안할 수 있다. 초기화를 다시 하려면 날려야 할것 같은데
+        // 인위적으로 초기화를 런타임에 돌릴 게 아니라면 상관없긴 하겠다. 초기값이 들어가고 나면 이후의 변경은 이 메소드의 책임을 벗어난다.
         Member systemMember = memberService.join("system", "1234", "시스템");
         Member holdingMember = memberService.join("holding", "1234", "홀딩");
         Member adminMember = memberService.join("admin", "1234", "관리자");

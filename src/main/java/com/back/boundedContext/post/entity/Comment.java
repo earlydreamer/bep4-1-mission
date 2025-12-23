@@ -5,15 +5,19 @@ import com.back.boundedContext.member.entity.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
+@Getter
 @NoArgsConstructor
 public class Comment extends BaseIdAndTime {
-    @ManyToOne
+    @ManyToOne (fetch = LAZY)
     @JoinColumn(name = "post_id")
     Post post;
-    @ManyToOne
+    @ManyToOne (fetch = LAZY)
     @JoinColumn(name = "author_id")
     private Member author;
     private String content;
