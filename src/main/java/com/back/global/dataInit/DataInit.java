@@ -1,9 +1,9 @@
 package com.back.global.dataInit;
 
+import com.back.boundedContext.member.app.facade.MemberFacade;
 import com.back.boundedContext.member.domain.Member;
 import com.back.boundedContext.post.domain.Post;
 import com.back.boundedContext.post.app.usecase.CommentService;
-import com.back.boundedContext.member.app.usecase.MemberService;
 import com.back.boundedContext.post.app.usecase.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
@@ -23,13 +23,13 @@ import java.util.Optional;
 
 public class DataInit {
     private final DataInit self;
-    private final MemberService memberService;
+    private final MemberFacade memberFacade;
     private final PostService postService;
     private final CommentService commentService;
 
-    public DataInit(@Lazy DataInit self, MemberService memberService, PostService postService, CommentService commentService) {
+    public DataInit(@Lazy DataInit self, MemberFacade memberFacade, PostService postService, CommentService commentService) {
         this.self = self;
-        this.memberService = memberService;
+        this.memberFacade = memberFacade;
         this.postService = postService;
         this.commentService=commentService;
 
@@ -46,17 +46,17 @@ public class DataInit {
 
     @Transactional
     public void makeBaseMembers() {
-        if (memberService.count() > 0) return; //멤버가 있으면 초기화 안해도 된다
+        if (memberFacade.count() > 0) return; //멤버가 있으면 초기화 안해도 된다
         // 이런식으로 검증하면 좀 위험할수도 있어 보이는데
         // transactional이니까 이 코드가 끝까지 실행되면 들어가고 실패하면 통쨰로 롤백됨
         // 다만 데이터가 이후에 변경되거나 삭제되었을 때 이 init 코드가 작동 안할 수 있다. 초기화를 다시 하려면 날려야 할것 같은데
         // 인위적으로 초기화를 런타임에 돌릴 게 아니라면 상관없긴 하겠다. 초기값이 들어가고 나면 이후의 변경은 이 메소드의 책임을 벗어난다.
-        Member systemMember = memberService.join("system", "1234", "시스템");
-        Member holdingMember = memberService.join("holding", "1234", "홀딩");
-        Member adminMember = memberService.join("admin", "1234", "관리자");
-        Member user1Member = memberService.join("user1", "1234", "유저1");
-        Member user2Member = memberService.join("user2", "1234", "유저2");
-        Member user3Member = memberService.join("user3", "1234", "유저3");
+        Member systemMember = memberFacade.join("system", "1234", "시스템");
+        Member holdingMember = memberFacade.join("holding", "1234", "홀딩");
+        Member adminMember = memberFacade.join("admin", "1234", "관리자");
+        Member user1Member = memberFacade.join("user1", "1234", "유저1");
+        Member user2Member = memberFacade.join("user2", "1234", "유저2");
+        Member user3Member = memberFacade.join("user3", "1234", "유저3");
 
     }
 
@@ -67,9 +67,9 @@ public class DataInit {
 
         if(postService.count()>0) return;
 
-        Optional<Member> user1Member = memberService.findByUsername("user1");
-        Optional<Member> user2Member = memberService.findByUsername("user2");
-        Optional<Member> user3Member = memberService.findByUsername("user3");
+        Optional<Member> user1Member = memberFacade.findByUsername("user1");
+        Optional<Member> user2Member = memberFacade.findByUsername("user2");
+        Optional<Member> user3Member = memberFacade.findByUsername("user3");
         postService.CreatePost("제목1", user1Member.get(), "내용1");
         postService.CreatePost("제목2", user1Member.get(), "내용2");
         postService.CreatePost("제목3", user1Member.get(), "내용3");
@@ -91,9 +91,9 @@ public class DataInit {
 
         if(commentService.count()>0) return;
 
-        Optional<Member> user1Member = memberService.findByUsername("user1");
-        Optional<Member> user2Member = memberService.findByUsername("user2");
-        Optional<Member> user3Member = memberService.findByUsername("user3");
+        Optional<Member> user1Member = memberFacade.findByUsername("user1");
+        Optional<Member> user2Member = memberFacade.findByUsername("user2");
+        Optional<Member> user3Member = memberFacade.findByUsername("user3");
 
         Optional<Post> post1 = postService.findByPostId(1);
         Optional<Post> post2 = postService.findByPostId(2);
