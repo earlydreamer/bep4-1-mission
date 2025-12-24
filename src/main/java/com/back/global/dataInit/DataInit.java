@@ -51,12 +51,12 @@ public class DataInit {
         // transactional이니까 이 코드가 끝까지 실행되면 들어가고 실패하면 통쨰로 롤백됨
         // 다만 데이터가 이후에 변경되거나 삭제되었을 때 이 init 코드가 작동 안할 수 있다. 초기화를 다시 하려면 날려야 할것 같은데
         // 인위적으로 초기화를 런타임에 돌릴 게 아니라면 상관없긴 하겠다. 초기값이 들어가고 나면 이후의 변경은 이 메소드의 책임을 벗어난다.
-        Member systemMember = memberFacade.join("system", "1234", "시스템");
-        Member holdingMember = memberFacade.join("holding", "1234", "홀딩");
-        Member adminMember = memberFacade.join("admin", "1234", "관리자");
-        Member user1Member = memberFacade.join("user1", "1234", "유저1");
-        Member user2Member = memberFacade.join("user2", "1234", "유저2");
-        Member user3Member = memberFacade.join("user3", "1234", "유저3");
+        Member systemMember = memberFacade.join("system", "1234", "시스템").getData();
+        Member holdingMember = memberFacade.join("holding", "1234", "홀딩").getData();
+        Member adminMember = memberFacade.join("admin", "1234", "관리자").getData();
+        Member user1Member = memberFacade.join("user1", "1234", "유저1").getData();
+        Member user2Member = memberFacade.join("user2", "1234", "유저2").getData();
+        Member user3Member = memberFacade.join("user3", "1234", "유저3").getData();
 
     }
 
@@ -101,15 +101,15 @@ public class DataInit {
         Optional<Post> post3 = postFacade.findByPostId(3);
         Optional<Post> post4 = postFacade.findByPostId(4);
 
-        commentFacade.createComment(post1.get(), user1Member.get(), "댓글1");
-        commentFacade.createComment(post1.get(), user2Member.get(), "댓글2");
-        commentFacade.createComment(post1.get(), user3Member.get(), "댓글3");
+        commentFacade.createComment(post1.get(), user1Member.get(), "댓글1").getData();
+        commentFacade.createComment(post1.get(), user2Member.get(), "댓글2").getData();
+        commentFacade.createComment(post1.get(), user3Member.get(), "댓글3").getData();
 
-        commentFacade.createComment(post2.get(), user2Member.get(), "댓글4");
-        commentFacade.createComment(post2.get(), user2Member.get(), "댓글5");
+        commentFacade.createComment(post2.get(), user2Member.get(), "댓글4").getData();
+        commentFacade.createComment(post2.get(), user2Member.get(), "댓글5").getData();
 
-        commentFacade.createComment(post3.get(), user3Member.get(), "댓글6");
-        commentFacade.createComment(post3.get(), user3Member.get(), "댓글7");
+        commentFacade.createComment(post3.get(), user3Member.get(), "댓글6").getData();
+        commentFacade.createComment(post3.get(), user3Member.get(), "댓글7").getData();
 //      commentService.createComment(post3.get(), user1Member.get(), "댓글7");
 //      왜 값이 다른가 했더니 예제와 값이 달랐음 (예제 쪽에 오타인 듯)
 

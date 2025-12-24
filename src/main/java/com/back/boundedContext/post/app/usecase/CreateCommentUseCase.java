@@ -6,6 +6,7 @@ import com.back.boundedContext.post.domain.Post;
 import com.back.boundedContext.post.out.repository.CommentRepository;
 import com.back.boundedContext.post.out.repository.PostRepository;
 import com.back.global.eventPublisher.EventPublisher;
+import com.back.global.rsData.RsData;
 import com.back.shared.post.dto.CommentCreatedEventPayload;
 import com.back.shared.post.event.CommentCreatedEvent;
 import jakarta.transaction.Transactional;
@@ -22,14 +23,14 @@ public class CreateCommentUseCase {
 
 
     @Transactional
-    public Comment createComment(Post post, Member author, String content){
+    public RsData<Comment> createComment(Post post, Member author, String content){
         //새 코멘트를 작성해 DB에 저장하는 로직은 여기서 발생한다. 생성자를 통해 직접 밀어넣는다.
         Comment comment = new Comment(post, author, content);
         commentRepository.save(comment); // 리팩토링 필요함
 
         //이벤트 발행. 이후의 동작은 이벤트가 담당한다.
         eventPublisher.publish(new CommentCreatedEvent(new CommentCreatedEventPayload(comment)));
-        return comment;
+        return new RsData<>("201-1", "댓글이 성공적으로 생성되었습니다.".formatted(post.getId()), comment);
     }
 
 }
