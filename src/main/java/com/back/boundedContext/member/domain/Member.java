@@ -1,8 +1,7 @@
 package com.back.boundedContext.member.domain;
 
 
-import com.back.global.jpa.entity.BaseIdAndTime;
-import jakarta.persistence.Column;
+import com.back.shared.member.domain.SourceMember;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -15,29 +14,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Table(name="MEMBER_MEMBER")
-public class Member extends BaseIdAndTime {
-
-    @Column(unique=true)
-    private String username;
-    private String password;
-    private String nickname;
-    @Column(nullable = false)
-    private long point = 0L; // 초기값 설정
-
-    public void increasePoint(long score) {
-        this.point += score; // 실제로 값을 증가시키는지 확인
+public class Member extends SourceMember {
+    public void increasePoint(int amount) {
+        setActivityScore(getActivityScore() + amount);
     }
 
 
-    public Member(String username,String password, String nickname)
-    {
-        this.username=username;
-        this.password=password;
-        this.nickname=nickname;
-        this.point=0;
+    public Member(String username, String password, String nickname) {
+        super(username, password, nickname);
     }
-
-
-
-
 }

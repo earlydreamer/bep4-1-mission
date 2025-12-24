@@ -11,13 +11,13 @@ public enum ScoreEnum {
     POST_CREATE(3),
     COMMENT_CREATE(1);
 
-    private final long score;
+    private final int score;
 
-    public long getScore(){
+    public int getScore(){
         return score;
     }
 
-    ScoreEnum (long score){
+    ScoreEnum (int score){
         this.score=score;
     }
 
