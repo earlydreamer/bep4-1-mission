@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * MemberPolicy가 뭐냐
+ * Member와 관련된 규칙을 한곳에 모은 것 (정책클래스)
+ */
 @Service
 public class MemberPolicy {
     private static final int PASSWORD_CHANGE_DAYS = 90;

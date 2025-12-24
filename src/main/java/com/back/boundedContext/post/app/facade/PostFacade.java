@@ -8,6 +8,8 @@ import com.back.boundedContext.post.out.repository.PostRepository;
 import com.back.global.eventPublisher.EventPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.back.global.rsData.RsData;
+
 
 import java.util.Optional;
 
@@ -21,7 +23,7 @@ public class PostFacade {
     private final CreatePostUseCase createPostUseCase;
 
 
-    public Post createPost(String title, Member author, String content){
+    public RsData<Post> createPost(String title, Member author, String content){
         return createPostUseCase.CreatePost(title, author, content);
     }
 

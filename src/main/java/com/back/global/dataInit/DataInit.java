@@ -70,12 +70,13 @@ public class DataInit {
         Optional<Member> user1Member = memberFacade.findByUsername("user1");
         Optional<Member> user2Member = memberFacade.findByUsername("user2");
         Optional<Member> user3Member = memberFacade.findByUsername("user3");
-        postFacade.createPost("제목1", user1Member.get(), "내용1");
-        postFacade.createPost("제목2", user1Member.get(), "내용2");
-        postFacade.createPost("제목3", user1Member.get(), "내용3");
-        postFacade.createPost("제목4", user2Member.get(), "내용4");
-        postFacade.createPost("제목5", user2Member.get(), "내용5");
-        postFacade.createPost("제목6", user3Member.get(), "내용6");
+
+        postFacade.createPost("제목1", user1Member.get(), "내용1").getData();
+        postFacade.createPost("제목2", user1Member.get(), "내용2").getData();
+        postFacade.createPost("제목3", user1Member.get(), "내용3").getData();
+        postFacade.createPost("제목4", user2Member.get(), "내용4").getData();
+        postFacade.createPost("제목5", user2Member.get(), "내용5").getData();
+        postFacade.createPost("제목6", user3Member.get(), "내용6").getData();
 
     }
 
