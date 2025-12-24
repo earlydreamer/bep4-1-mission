@@ -4,6 +4,7 @@ package com.back.boundedContext.member.domain;
 import com.back.global.jpa.entity.BaseIdAndTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(name="MEMBER_MEMBER")
 public class Member extends BaseIdAndTime {
 
     @Column(unique=true)
