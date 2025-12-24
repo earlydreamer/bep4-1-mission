@@ -3,8 +3,8 @@ package com.back.global.dataInit;
 import com.back.boundedContext.member.app.facade.MemberFacade;
 import com.back.boundedContext.member.domain.Member;
 import com.back.boundedContext.post.domain.Post;
-import com.back.boundedContext.post.app.usecase.CommentService;
-import com.back.boundedContext.post.app.usecase.PostService;
+import com.back.boundedContext.post.app.facade.CommentFacade;
+import com.back.boundedContext.post.app.facade.PostFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -24,14 +24,14 @@ import java.util.Optional;
 public class DataInit {
     private final DataInit self;
     private final MemberFacade memberFacade;
-    private final PostService postService;
-    private final CommentService commentService;
+    private final PostFacade postFacade;
+    private final CommentFacade commentFacade;
 
-    public DataInit(@Lazy DataInit self, MemberFacade memberFacade, PostService postService, CommentService commentService) {
+    public DataInit(@Lazy DataInit self, MemberFacade memberFacade, PostFacade postService, CommentFacade commentFacade) {
         this.self = self;
         this.memberFacade = memberFacade;
-        this.postService = postService;
-        this.commentService=commentService;
+        this.postFacade = postService;
+        this.commentFacade = commentFacade;
 
     }
 
@@ -65,17 +65,17 @@ public class DataInit {
         //user2 회원(5번 회원)이 글 2개 작성
         //user3 회원(6번 회원)이 글 1개 작성
 
-        if(postService.count()>0) return;
+        if(postFacade.count()>0) return;
 
         Optional<Member> user1Member = memberFacade.findByUsername("user1");
         Optional<Member> user2Member = memberFacade.findByUsername("user2");
         Optional<Member> user3Member = memberFacade.findByUsername("user3");
-        postService.CreatePost("제목1", user1Member.get(), "내용1");
-        postService.CreatePost("제목2", user1Member.get(), "내용2");
-        postService.CreatePost("제목3", user1Member.get(), "내용3");
-        postService.CreatePost("제목4", user2Member.get(), "내용4");
-        postService.CreatePost("제목5", user2Member.get(), "내용5");
-        postService.CreatePost("제목6", user3Member.get(), "내용6");
+        postFacade.createPost("제목1", user1Member.get(), "내용1");
+        postFacade.createPost("제목2", user1Member.get(), "내용2");
+        postFacade.createPost("제목3", user1Member.get(), "내용3");
+        postFacade.createPost("제목4", user2Member.get(), "내용4");
+        postFacade.createPost("제목5", user2Member.get(), "내용5");
+        postFacade.createPost("제목6", user3Member.get(), "내용6");
 
     }
 
@@ -89,30 +89,30 @@ public class DataInit {
         //user1 회원이 3번글에 댓글(내용=댓글7) 작성
         //user1 회원이 4번글에 댓글(내용=댓글8) 작성
 
-        if(commentService.count()>0) return;
+        if(commentFacade.count()>0) return;
 
         Optional<Member> user1Member = memberFacade.findByUsername("user1");
         Optional<Member> user2Member = memberFacade.findByUsername("user2");
         Optional<Member> user3Member = memberFacade.findByUsername("user3");
 
-        Optional<Post> post1 = postService.findByPostId(1);
-        Optional<Post> post2 = postService.findByPostId(2);
-        Optional<Post> post3 = postService.findByPostId(3);
-        Optional<Post> post4 = postService.findByPostId(4);
+        Optional<Post> post1 = postFacade.findByPostId(1);
+        Optional<Post> post2 = postFacade.findByPostId(2);
+        Optional<Post> post3 = postFacade.findByPostId(3);
+        Optional<Post> post4 = postFacade.findByPostId(4);
 
-        commentService.createComment(post1.get(), user1Member.get(), "댓글1");
-        commentService.createComment(post1.get(), user2Member.get(), "댓글2");
-        commentService.createComment(post1.get(), user3Member.get(), "댓글3");
+        commentFacade.createComment(post1.get(), user1Member.get(), "댓글1");
+        commentFacade.createComment(post1.get(), user2Member.get(), "댓글2");
+        commentFacade.createComment(post1.get(), user3Member.get(), "댓글3");
 
-        commentService.createComment(post2.get(), user2Member.get(), "댓글4");
-        commentService.createComment(post2.get(), user2Member.get(), "댓글5");
+        commentFacade.createComment(post2.get(), user2Member.get(), "댓글4");
+        commentFacade.createComment(post2.get(), user2Member.get(), "댓글5");
 
-        commentService.createComment(post3.get(), user3Member.get(), "댓글6");
-        commentService.createComment(post3.get(), user3Member.get(), "댓글7");
+        commentFacade.createComment(post3.get(), user3Member.get(), "댓글6");
+        commentFacade.createComment(post3.get(), user3Member.get(), "댓글7");
 //      commentService.createComment(post3.get(), user1Member.get(), "댓글7");
 //      왜 값이 다른가 했더니 예제와 값이 달랐음 (예제 쪽에 오타인 듯)
 
-        commentService.createComment(post4.get(), user1Member.get(), "댓글8");
+        commentFacade.createComment(post4.get(), user1Member.get(), "댓글8");
 
 
 

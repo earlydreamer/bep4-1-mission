@@ -1,0 +1,27 @@
+package com.back.boundedContext.post.app.facade;
+
+import com.back.boundedContext.member.domain.Member;
+import com.back.boundedContext.post.app.usecase.CreateCommentUseCase;
+import com.back.boundedContext.post.domain.Comment;
+import com.back.boundedContext.post.domain.Post;
+import com.back.boundedContext.post.out.repository.CommentRepository;
+import com.back.global.eventPublisher.EventPublisher;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class CommentFacade {
+    private final CommentRepository commentRepository;
+    private final EventPublisher eventPublisher;
+    private final CreateCommentUseCase createCommentUseCase;
+
+    public long count() {
+        return commentRepository.count();
+    }
+
+    public Comment createComment(Post post, Member author, String content){
+        return createCommentUseCase.createComment(post, author, content);
+    }
+
+}

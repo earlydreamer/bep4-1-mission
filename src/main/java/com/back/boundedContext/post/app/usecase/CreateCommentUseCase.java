@@ -4,21 +4,22 @@ import com.back.boundedContext.member.domain.Member;
 import com.back.boundedContext.post.domain.Comment;
 import com.back.boundedContext.post.domain.Post;
 import com.back.boundedContext.post.out.repository.CommentRepository;
+import com.back.boundedContext.post.out.repository.PostRepository;
 import com.back.global.eventPublisher.EventPublisher;
 import com.back.shared.post.dto.CommentCreatedEventPayload;
 import com.back.shared.post.event.CommentCreatedEvent;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CommentService {
+@RequiredArgsConstructor
+public class CreateCommentUseCase {
+
+    private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final EventPublisher eventPublisher;
 
-    public CommentService(CommentRepository commentRepository, EventPublisher eventPublisher) {
-        this.commentRepository = commentRepository;
-        this.eventPublisher=eventPublisher;
-    }
 
     @Transactional
     public Comment createComment(Post post, Member author, String content){
@@ -29,10 +30,6 @@ public class CommentService {
         //이벤트 발행. 이후의 동작은 이벤트가 담당한다.
         eventPublisher.publish(new CommentCreatedEvent(new CommentCreatedEventPayload(comment)));
         return comment;
-    }
-
-    public long count() {
-        return commentRepository.count();
     }
 
 }
