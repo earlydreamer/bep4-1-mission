@@ -1,32 +1,26 @@
 package com.back.global.jpa.entity;
 
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 /**
- * ID와 시간을 포함하는 기본 엔티티
+ * Auto-Increment와 자동생성을 걸지 않는 베이스 엔티티
  */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-public abstract class BaseIdAndTime extends BaseEntity{
+public abstract class BaseIdAndTimeManual extends BaseEntity{
 
     @Id
-    @GeneratedValue(strategy=IDENTITY)
     private int id;
-    @CreatedDate
     private LocalDateTime createdAt;
-    @LastModifiedDate
     private LocalDateTime updatedAt;
+
+
 
 }
