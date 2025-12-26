@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 public class MemberUpdatedEventPayload {
-    private final int id;
+    private final Long id;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
-    private final String nickname;
     private final String username;
+    private final String nickname;
     private final int activityScore;
 
     public MemberUpdatedEventPayload(Member member){
