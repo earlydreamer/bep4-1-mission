@@ -4,12 +4,14 @@ import com.back.shared.member.domain.ReplicaMember;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
-@Table(name="POST_MEMNBER")
+@AllArgsConstructor
+@Table(name="POST_MEMBER")
 @Getter
 public class PostMember extends ReplicaMember {
     @Column(unique=true)
@@ -17,6 +19,6 @@ public class PostMember extends ReplicaMember {
     private String password;
     private String nickname;
     @Column(nullable = false)
-    private long point = 0L; // 초기값 설정
+    private int activityScore = 0; // 초기값 설정
 
 }

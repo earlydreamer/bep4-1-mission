@@ -18,11 +18,13 @@ public abstract class BaseMember extends BaseEntity {
     private String username;
     private String password;
     private String nickname;
+    @Column(nullable = false)
     private int activityScore;
 
     public BaseMember(String username, String password, String nickname) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
+        this.activityScore = 0; // 디폴트 값이 0이므로 명시적으로 초기화하도록
     }
 }

@@ -15,7 +15,7 @@ import static org.springframework.transaction.event.TransactionPhase.AFTER_COMMI
 
 @Component
 @RequiredArgsConstructor
-public class MemberEventListener {
+public class ScoreEventListener {
     private final MemberFacade memberFacade;
 
     @TransactionalEventListener(phase = AFTER_COMMIT)
@@ -33,6 +33,7 @@ public class MemberEventListener {
         member.increasePoint(ScoreEnum.COMMENT_CREATE.getScore());
 
     }
+
 
 
 }
