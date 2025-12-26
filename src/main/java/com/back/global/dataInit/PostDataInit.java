@@ -1,7 +1,6 @@
 package com.back.global.dataInit;
 
 import com.back.boundedContext.member.app.facade.MemberFacade;
-import com.back.boundedContext.member.domain.Member;
 import com.back.boundedContext.post.app.facade.CommentFacade;
 import com.back.boundedContext.post.app.facade.PostFacade;
 import com.back.boundedContext.post.domain.Post;
@@ -12,6 +11,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.annotation.Order;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -23,44 +23,29 @@ import java.util.Optional;
 @Configuration
 @Slf4j
 
-public class DataInit {
-    private final DataInit self;
-    private final MemberFacade memberFacade;
+public class PostDataInit {
+    private final PostDataInit self;
     private final PostFacade postFacade;
     private final CommentFacade commentFacade;
 
-    public DataInit(@Lazy DataInit self, MemberFacade memberFacade, PostFacade postService, CommentFacade commentFacade) {
+    public PostDataInit(@Lazy PostDataInit self, MemberFacade memberFacade, PostFacade postService, CommentFacade commentFacade) {
         this.self = self;
-        this.memberFacade = memberFacade;
         this.postFacade = postService;
         this.commentFacade = commentFacade;
 
     }
 
     @Bean
-    public ApplicationRunner baseInitDataRunner() {
+    @Order(2)
+    public ApplicationRunner PostInitDataRunner() {
         return args -> {
-            self.makeBaseMembers();
-            self.makeBasePosts();
-            self.makeBasePostComments();
+            self.makePosts();
+            self.makeComments();
         };
     }
 
     @Transactional
-    public void makeBaseMembers() {
-        if (memberFacade.count() > 0) return;
-        
-        // Member 생성 - 이벤트를 통해 PostMember가 자동 생성됨
-        Member systemMember = memberFacade.join("system", "1234", "시스템").getData();
-        Member holdingMember = memberFacade.join("holding", "1234", "홀딩").getData();
-        Member adminMember = memberFacade.join("admin", "1234", "관리자").getData();
-        Member user1Member = memberFacade.join("user1", "1234", "유저1").getData();
-        Member user2Member = memberFacade.join("user2", "1234", "유저2").getData();
-        Member user3Member = memberFacade.join("user3", "1234", "유저3").getData();
-    }
-
-    @Transactional
-    public void makeBasePosts() {
+    public void makePosts() {
         //user1 회원(4번 회원)이 글 3개 작성
         //user2 회원(5번 회원)이 글 2개 작성
         //user3 회원(6번 회원)이 글 1개 작성
@@ -93,7 +78,7 @@ public class DataInit {
     }
 
     @Transactional
-    public void makeBasePostComments() {
+    public void makeComments() {
         //user1 회원이 1번글에 댓글(내용=댓글1) 작성
         //user2 회원이 1번글에 댓글(내용=댓글2) 작성
         //user3 회원이 1번글에 댓글(내용=댓글3) 작성
