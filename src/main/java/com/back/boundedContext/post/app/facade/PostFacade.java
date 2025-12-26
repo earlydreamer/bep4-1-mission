@@ -1,7 +1,5 @@
 package com.back.boundedContext.post.app.facade;
 
-import com.back.boundedContext.member.domain.Member;
-import com.back.boundedContext.member.out.repository.MemberRepository;
 import com.back.boundedContext.post.app.usecase.CreatePostUseCase;
 import com.back.boundedContext.post.domain.Post;
 import com.back.boundedContext.post.domain.PostMember;
@@ -13,32 +11,49 @@ import com.back.shared.member.dto.MemberJoinedEventPayload;
 import com.back.shared.post.dto.MemberUpdatedEventPayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 /**
  * Facade는 이 BoundedContext 안으로 들어오는 모든 요청에 대한 관문이다.
+ * Post 컨텍스트는 PostMember만 사용하며 Member 컨텍스트와의 직접 결합을 피한다.
  */
 @Service
 @RequiredArgsConstructor
 public class PostFacade {
 
     private final PostRepository postRepository;
-    private final MemberRepository memberRepository;
     private final EventPublisher eventPublisher;
     private final CreatePostUseCase createPostUseCase;
     private final PostMemberRepository postMemberRepository;
 
 
-    public RsData<Post> createPost(String title, Member author, String content){
+    public RsData<Post> createPost(String title, PostMember author, String content){
         return createPostUseCase.CreatePost(title, author, content);
     }
 
     public Optional<Post> findByPostId(int i) {
         return postRepository.findById(i);
     }
+    
     public long count() {
         return postRepository.count();
+    }
+    
+    /**
+     * PostMember 조회 - Post 컨텍스트 내부에서 사용
+     */
+    public Optional<PostMember> findPostMemberById(Long id) {
+        return postMemberRepository.findById(id);
+    }
+    
+    /**
+     * PostMember 조회 - username으로 조회
+     */
+    @Transactional(readOnly = true)
+    public Optional<PostMember> findPostMemberByUsername(String username) {
+        return postMemberRepository.findByUsername(username);
     }
 
     /**
@@ -47,6 +62,7 @@ public class PostFacade {
      * @param member
      * @return
      */
+    @Transactional
     public PostMember syncMember(MemberJoinedEventPayload member) {
         PostMember postMember = new PostMember(
                 member.getId(),
@@ -71,7 +87,26 @@ public class PostFacade {
      * @param member 업데이트된 Member 정보를 담고 있는 Payload
      * @return 업데이트된 PostMember
      */
+    @Transactional
     public PostMember syncMember(MemberUpdatedEventPayload member) {
+        PostMember postMember = new PostMember(
+                member.getId(),
+                member.getCreatedAt(),
+                member.getUpdatedAt(),
+                member.getUsername(),
+                "",
+                member.getNickname(),
+                member.getActivityScore()
+        );
+        return postMemberRepository.save(postMember);
+    }
+
+    /**
+     * DataInit에서 직접 Member를 받아 PostMember를 동기화한다.
+     * 이벤트 리스너가 트랜잭션 경계 때문에 제대로 동작하지 않을 때 사용
+     */
+    @Transactional
+    public PostMember syncMemberDirectly(com.back.boundedContext.member.domain.Member member) {
         PostMember postMember = new PostMember(
                 member.getId(),
                 member.getCreatedAt(),

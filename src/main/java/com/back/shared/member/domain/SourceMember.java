@@ -21,7 +21,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 public abstract class SourceMember extends BaseMember {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private int id;
+    private Long id;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate

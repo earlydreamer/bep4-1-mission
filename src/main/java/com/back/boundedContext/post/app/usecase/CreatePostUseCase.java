@@ -1,9 +1,9 @@
 package com.back.boundedContext.post.app.usecase;
 
 import com.back.boundedContext.member.app.facade.MemberFacade;
-import com.back.boundedContext.member.domain.Member;
 import com.back.boundedContext.member.out.apiClient.MemberApiClient;
 import com.back.boundedContext.post.domain.Post;
+import com.back.boundedContext.post.domain.PostMember;
 import com.back.boundedContext.post.out.repository.CommentRepository;
 import com.back.boundedContext.post.out.repository.PostRepository;
 import com.back.global.eventPublisher.EventPublisher;
@@ -25,7 +25,7 @@ public class CreatePostUseCase {
     private final MemberApiClient memberApiClient;
 
     @Transactional
-    public RsData<Post> CreatePost(String title, Member author, String content){
+    public RsData<Post> CreatePost(String title, PostMember author, String content){
         //새 포스트를 작성해 DB에 저장하는 로직은 여기서 발생한다. 생성자를 통해 직접 밀어넣는다.
         Post post = postRepository.save(new Post(title, author, content));
         //String randomSecureTip = memberFacade.getRandomSecureTip();

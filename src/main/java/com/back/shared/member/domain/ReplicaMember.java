@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public abstract class ReplicaMember extends BaseMember {
     @Id
-    private int id; // id를 auto-generate하지 않고 명시적으로 생성한다.
+    private Long id; // id를 auto-generate하지 않고 명시적으로 생성한다.
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public ReplicaMember
-            (int id, LocalDateTime createdAt, LocalDateTime updatedAt,
+            (Long id, LocalDateTime createdAt, LocalDateTime updatedAt,
              String username, String password, String nickname, int activityScore)
     {
         super(username, password, nickname);

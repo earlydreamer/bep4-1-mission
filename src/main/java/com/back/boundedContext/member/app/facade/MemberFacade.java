@@ -35,7 +35,7 @@ public class MemberFacade {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Member> findById(int id) {
+    public Optional<Member> findById(Long id) {
         return memberRepository.findById(id);
     }
 

@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 public class CommentCreatedEventPayload {
-    private final int id;
+    private final Long id;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
-    private final int postId;
-    private final int authorId;
+    private final Long postId;
+    private final Long authorId;
 
     // 이 부분이 필요한가? (Post 행위는 서비스 레이어에서 일어나고 이벤트 핸들링의 동작과 직접적 관계 없다.
     // 핸들러가 건드리는 부분은 Member의 점수라서 작성자, 본문 정보는 사용되지 않는다.

@@ -1,6 +1,5 @@
 package com.back.boundedContext.post.domain;
 
-import com.back.boundedContext.member.domain.Member;
 import com.back.global.jpa.entity.BaseIdAndTime;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -21,10 +20,10 @@ public class Comment extends BaseIdAndTime {
     Post post;
     @ManyToOne (fetch = LAZY)
     @JoinColumn(name = "author_id")
-    private Member author;
+    private PostMember author;  // Member → PostMember
     private String content;
 
-    public Comment (Post post, Member author, String content ){
+    public Comment (Post post, PostMember author, String content ){
         this.post = post;
         this.author = author;
         this.content = content;

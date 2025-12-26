@@ -28,7 +28,7 @@ public abstract class BaseEntity {
     // 자식 클래스인 BaseIdAndTime에 있어야 하는 거 아닌가
     // 아직 선언되지 않은(자식에서 선언되는) 필드를 조회하는 메소드가 여기 있는게 맞나
     // 자식 클래스가 공통으로 사용하는 필드니까 여기서 미리 명세를 해준다고 하는데 적절한 설계가 맞나
-    public abstract int getId();
+    public abstract Long getId();
     public abstract LocalDateTime getCreatedAt();
     public abstract LocalDateTime getUpdatedAt();
 
