@@ -47,16 +47,12 @@ public class PostFacade {
      * @return
      */
     public PostMember syncMember(MemberJoinedEventPayload member) {
-        PostMember postMember = new PostMember(
-                member.getUsername(),"", member.getNickname(),0);
+        PostMember postMember = new PostMember(member.getId(), member.getCreatedAt(), member.getUpdatedAt(),
+                member.getNickname(),"",member.getNickname());
         //민감정보인 Password는 미러링에 넘기지 않는다.
         //필드 자체는 있어야 하는 정보이므로 필드 자체를 날리는 것이 아니라 공백을 넣는다
-        //새로 생성되는 Score의 기본값은 무조건 0이므로 0을 넣는다.
-
-        postMember.setId(member.getId());
-        postMember.setCreatedAt(member.getCreatedAt());
-        postMember.setUpdatedAt(member.getUpdatedAt());
-
+        //새로 생성되는 Score는 생성자에서 0으로 초기화된다.
+        //초기화 책임을 sync 로직에서 생성자 쪽으로 이전
         return postMemberRepository.save(postMember);
     }
 

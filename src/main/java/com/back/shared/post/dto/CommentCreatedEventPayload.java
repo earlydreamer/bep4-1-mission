@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @Getter
 public class CommentCreatedEventPayload {
     private final int id;
-    private final LocalDateTime createDate;
-    private final LocalDateTime modifyDate;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
     private final int postId;
     private final int authorId;
 
