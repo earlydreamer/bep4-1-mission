@@ -18,7 +18,7 @@ public abstract class ReplicaMember extends BaseMember {
 
     public ReplicaMember
             (int id, LocalDateTime createdAt, LocalDateTime updatedAt,
-             String username, String password, String nickname)
+             String username, String password, String nickname, int activityScore)
     {
         super(username, password, nickname);
         // 생성자에서 파라미터로 받은 id, 생성시간, 최종수정시간을 그대로 넣어줌으로서 명시적으로 처리한다.
@@ -26,5 +26,6 @@ public abstract class ReplicaMember extends BaseMember {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.setActivityScore(activityScore);
     }
 }

@@ -18,7 +18,7 @@ public class Member extends SourceMember {
     public void increasePoint(int amount) {
         setActivityScore(getActivityScore() + amount);
     }
-
+    
 
     public Member(String username, String password, String nickname) {
         super(username, password, nickname);

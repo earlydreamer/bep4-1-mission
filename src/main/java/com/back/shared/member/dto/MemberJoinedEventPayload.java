@@ -19,6 +19,7 @@ public class MemberJoinedEventPayload {
     private LocalDateTime updatedAt;
 
 
+
     public MemberJoinedEventPayload(Member member) {
         this.id = member.getId();
         this.username = member.getUsername();
