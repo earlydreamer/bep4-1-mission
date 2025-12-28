@@ -5,7 +5,6 @@ import com.back.boundedContext.post.domain.Comment;
 import com.back.boundedContext.post.domain.Post;
 import com.back.boundedContext.post.domain.PostMember;
 import com.back.boundedContext.post.out.repository.CommentRepository;
-import com.back.global.eventPublisher.EventPublisher;
 import com.back.global.rsData.RsData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CommentFacade {
     private final CommentRepository commentRepository;
-    private final EventPublisher eventPublisher;
     private final CreateCommentUseCase createCommentUseCase;
 
     public long count() {
