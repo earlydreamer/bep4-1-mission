@@ -27,7 +27,7 @@ public class CashDataInit {
     }
 
     @Bean
-    @Order(2)
+    @Order(3)
     public ApplicationRunner cashDataInitApplicationRunner() {
         return args -> {
             self.makeBaseCredits();
