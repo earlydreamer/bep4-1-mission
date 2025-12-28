@@ -32,9 +32,9 @@ public class CashFacade {
     }
 
     /**
-     * CashMember 조회 - Post 컨텍스트 내부에서 사용
+     * CashMember 조회 - Cash 컨텍스트 내부에서 사용
      */
-    public Optional<CashMember> findPCashMemberById(Long id) {
+    public Optional<CashMember> findCashMemberById(Long id) {
         return cashMemberRepository.findById(id);
     }
 
@@ -44,6 +44,11 @@ public class CashFacade {
     @Transactional(readOnly = true)
     public Optional<CashMember> findCashMemberByUsername(String username) {
         return cashMemberRepository.findByUsername(username);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Wallet> findWalletByHolder(CashMember holder) {
+        return walletRepository.findByHolder(holder);
     }
 
     /**
