@@ -2,7 +2,9 @@ package com.back.boundedContext.cash.app.facade;
 
 
 import com.back.boundedContext.cash.domain.CashMember;
+import com.back.boundedContext.cash.domain.Wallet;
 import com.back.boundedContext.cash.out.repository.CashMemberRepository;
+import com.back.boundedContext.cash.out.repository.WalletRepository;
 import com.back.shared.member.dto.MemberJoinedEventPayload;
 import com.back.shared.post.dto.MemberUpdatedEventPayload;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +17,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CashFacade {
     private final CashMemberRepository cashMemberRepository;
+    private final WalletRepository walletRepository;
 
+    @Transactional
+    public Wallet createWallet(CashMember holder) {
+        Wallet wallet = new Wallet(holder);
+
+        return walletRepository.save(wallet);
+    }
 
     @Transactional
     public long count() {
@@ -80,5 +89,8 @@ public class CashFacade {
         );
         return cashMemberRepository.save(cashMember);
     }
+
+
+
 
 }
