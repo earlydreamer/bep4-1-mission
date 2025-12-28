@@ -3,7 +3,7 @@ package com.back.boundedContext.member.domain;
 
 import com.back.shared.member.domain.SourceMember;
 import com.back.shared.post.dto.MemberUpdatedEventPayload;
-import com.back.shared.post.event.MemberUpdatedEvent;
+import com.back.shared.member.event.MemberUpdatedEvent;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;

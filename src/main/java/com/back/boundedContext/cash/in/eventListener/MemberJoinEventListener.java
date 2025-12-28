@@ -1,7 +1,6 @@
 package com.back.boundedContext.cash.in.eventListener;
 
 import com.back.boundedContext.cash.app.facade.CashFacade;
-import com.back.boundedContext.cash.domain.CashMember;
 import com.back.shared.member.event.MemberJoinedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -22,15 +21,15 @@ public class MemberJoinEventListener {
      * 신규 추가된 Member를 받아서 ReplicaMember에 복제한다.
      * 복제할 ReplicaMember 엔티티 : CashMember
      * event에 담긴 MemberJoinedEventPayload의 값을 기반으로 CashMember 생성한다.
+     * CashMember 생성 시 CashMemberCreatedEvent가 발행되어 Wallet이 자동으로 생성된다.
      * @param event
      */
     @TransactionalEventListener(phase = AFTER_COMMIT)
     @Transactional(propagation = REQUIRES_NEW)
     public void handle(MemberJoinedEvent event) {
-
-        CashMember member = cashFacade.syncMember(event.getMember());
-        cashFacade.createWallet(member);
-
+        // CashMember 생성 시 내부에서 CashMemberCreatedEvent 발행
+        // 해당 이벤트를 통해 Wallet이 생성됨
+        cashFacade.syncMember(event.getMember());
     }
 
 

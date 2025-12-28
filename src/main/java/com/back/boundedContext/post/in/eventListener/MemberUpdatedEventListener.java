@@ -1,7 +1,7 @@
 package com.back.boundedContext.post.in.eventListener;
 
 import com.back.boundedContext.post.app.facade.PostFacade;
-import com.back.shared.post.event.MemberUpdatedEvent;
+import com.back.shared.member.event.MemberUpdatedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
