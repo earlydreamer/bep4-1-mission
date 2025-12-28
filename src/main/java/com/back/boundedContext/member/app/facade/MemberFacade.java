@@ -1,10 +1,10 @@
 package com.back.boundedContext.member.app.facade;
 
 
+import com.back.boundedContext.member.app.query.MemberQuery;
 import com.back.boundedContext.member.app.usecase.MemberJoinUseCase;
+import com.back.boundedContext.member.app.usecase.RandomTipUseCase;
 import com.back.boundedContext.member.domain.Member;
-import com.back.boundedContext.member.domain.MemberPolicy;
-import com.back.boundedContext.member.out.repository.MemberRepository;
 import com.back.global.rsData.RsData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MemberFacade {
    private final MemberJoinUseCase memberJoinUseCase;
-   private final MemberRepository memberRepository;
-   private final MemberPolicy memberPolicy;
+
+   private final MemberQuery memberQuery;
+   private final RandomTipUseCase randomTipUseCase;
 
    @Transactional
    public long count() {
-        return memberRepository.count();
+        return memberQuery.count();
     }
 
    @Transactional
@@ -31,22 +32,21 @@ public class MemberFacade {
 
     @Transactional(readOnly = true)
     public Optional<Member> findByUsername(String username) {
-        return memberRepository.findByUsername(username);
+        return memberQuery.findByUsername(username);
     }
 
     @Transactional(readOnly = true)
     public Optional<Member> findById(Long id) {
-        return memberRepository.findById(id);
+        return memberQuery.findById(id);
     }
 
     @Transactional
     public Member save(Member member) {
-        return memberRepository.save(member);
+        return memberQuery.save(member);
     }
 
     public String getRandomSecureTip() {
-        return "비밀번호의 유효기간은 %d일 입니다."
-                .formatted(memberPolicy.getNeedToChangePasswordDays());
+        return randomTipUseCase.getRandomSecureTip();
     }
 
 }
