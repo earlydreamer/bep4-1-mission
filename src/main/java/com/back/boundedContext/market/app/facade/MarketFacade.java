@@ -53,8 +53,8 @@ public class MarketFacade {
             Long sourceId,
             String name,
             String description,
-            int price,
-            int salePrice
+            long price,
+            long salePrice
     ) {
 
         return marketCreateProductUseCase.createProduct(

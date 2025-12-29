@@ -17,8 +17,8 @@ public class MarketCreateProductUseCase {
             Long sourceId,
             String name,
             String description,
-            int price,
-            int salePrice
+            long price, //금액은 단위가 커질수있기 때문에 int -> long
+            long salePrice
     ) {
         Product product = new Product(
                 seller,
