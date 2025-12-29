@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -32,6 +33,14 @@ public class PostQuery {
     @Transactional(readOnly = true)
     public Optional<PostMember> findPostMemberByUsername(String username) {
         return postMemberRepository.findByUsername(username);
+    }
+
+    public List<Post> findByOrderByIdDesc() {
+        return postRepository.findByOrderByIdDesc();
+    }
+
+    public List<Post> findAll() {
+        return postRepository.findAll();
     }
 
 }

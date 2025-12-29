@@ -1,0 +1,40 @@
+package com.back.boundedContext.post.in.controller;
+
+import com.back.boundedContext.post.app.facade.PostFacade;
+import com.back.shared.post.dto.PostResponseDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/post/posts")
+@RequiredArgsConstructor
+public class ApiV1PostController {
+    private final PostFacade postFacade;
+
+    @GetMapping
+    @Transactional(readOnly = true)
+    public List<PostResponseDto> getItems() {
+        return postFacade
+                .findByOrderByIdDesc()
+                .stream()
+                .map(PostResponseDto::new)
+                .toList();
+    }
+
+    @GetMapping("/{id}")
+    @Transactional(readOnly = true)
+    public PostResponseDto getItem(
+            @PathVariable int id
+    ) {
+        return postFacade
+                .findByPostId(id)
+                .map(PostResponseDto::new)
+                .get();
+    }
+}
