@@ -1,10 +1,14 @@
 package com.back.boundedContext.market.app.facade;
 
 import com.back.boundedContext.market.app.Query.MarketQuery;
+import com.back.boundedContext.market.app.usecase.MarketCreateCartUseCase;
 import com.back.boundedContext.market.app.usecase.MarketCreateProductUseCase;
 import com.back.boundedContext.market.app.usecase.MarketSyncMemberUseCase;
+import com.back.boundedContext.market.domain.Cart;
 import com.back.boundedContext.market.domain.MarketMember;
 import com.back.boundedContext.market.domain.Product;
+import com.back.global.rsData.RsData;
+import com.back.shared.market.dto.MarketMemberCreatedEventPayload;
 import com.back.shared.member.dto.MemberJoinedEventPayload;
 import com.back.shared.post.dto.MemberUpdatedEventPayload;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +25,7 @@ public class MarketFacade {
     private final MarketQuery marketQuery;
 
     private final MarketCreateProductUseCase marketCreateProductUseCase;
+    private final MarketCreateCartUseCase marketCreateCartUseCase;
 
 
     @Transactional
@@ -66,5 +71,20 @@ public class MarketFacade {
         return marketQuery.findMemberByUsername(username);
     }
 
+
+    @Transactional
+    public RsData<Cart> createCart(MarketMemberCreatedEventPayload buyer) {
+        return marketCreateCartUseCase.createCart(buyer);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Cart> findCartByBuyer(MarketMember buyer) {
+        return marketQuery.findCartByBuyer(buyer);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Product> findProductById(Long id) {
+        return marketQuery.findProductById(id);
+    }
 
 }

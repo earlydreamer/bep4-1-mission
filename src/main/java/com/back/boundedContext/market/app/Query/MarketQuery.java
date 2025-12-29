@@ -1,13 +1,20 @@
 package com.back.boundedContext.market.app.Query;
 
+import com.back.boundedContext.market.domain.Cart;
+import com.back.boundedContext.market.domain.MarketMember;
+import com.back.boundedContext.market.domain.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class MarketQuery {
     private final com.back.boundedContext.market.out.repository.MarketMemberRepository marketMemberRepository;
     private final com.back.boundedContext.market.out.repository.ProductRepository productRepository;
+    private final com.back.boundedContext.market.out.repository.CartRepository cartRepository;
+
 
     public long countProducts() {
         return productRepository.count();
@@ -18,4 +25,11 @@ public class MarketQuery {
     }
 
 
+    public Optional<Cart> findCartByBuyer(MarketMember buyer) {
+        return cartRepository.findByBuyer(buyer);
+    }
+
+    public Optional<Product> findProductById(Long id) {
+        return productRepository.findById(id);
+    }
 }

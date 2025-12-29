@@ -2,6 +2,9 @@ package com.back.boundedContext.market.app.usecase;
 
 import com.back.boundedContext.market.domain.MarketMember;
 import com.back.boundedContext.market.out.repository.MarketMemberRepository;
+import com.back.global.eventPublisher.EventPublisher;
+import com.back.shared.market.dto.MarketMemberCreatedEventPayload;
+import com.back.shared.market.event.MarketMemberCreatedEvent;
 import com.back.shared.member.dto.MemberJoinedEventPayload;
 import com.back.shared.post.dto.MemberUpdatedEventPayload;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MarketSyncMemberUseCase {
 
     private final MarketMemberRepository marketMemberRepository;
+    private final EventPublisher eventPublisher;
 
     /**
      * 새로 가입한 Member를 MarketMember로 동기화한다.
@@ -30,7 +34,13 @@ public class MarketSyncMemberUseCase {
                 member.getNickname(),
                 0
         );
-        return marketMemberRepository.save(marketMember);
+        MarketMember savedMember = marketMemberRepository.save(marketMember);
+        eventPublisher.publish(
+                new MarketMemberCreatedEvent(
+                        new MarketMemberCreatedEventPayload(savedMember)
+                )
+        );
+        return savedMember;
     }
 
     /**
