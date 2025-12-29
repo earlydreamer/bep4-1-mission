@@ -2,10 +2,12 @@ package com.back.boundedContext.market.app.facade;
 
 import com.back.boundedContext.market.app.Query.MarketQuery;
 import com.back.boundedContext.market.app.usecase.MarketCreateCartUseCase;
+import com.back.boundedContext.market.app.usecase.MarketCreateOrderUseCase;
 import com.back.boundedContext.market.app.usecase.MarketCreateProductUseCase;
 import com.back.boundedContext.market.app.usecase.MarketSyncMemberUseCase;
 import com.back.boundedContext.market.domain.Cart;
 import com.back.boundedContext.market.domain.MarketMember;
+import com.back.boundedContext.market.domain.Order;
 import com.back.boundedContext.market.domain.Product;
 import com.back.global.rsData.RsData;
 import com.back.shared.market.dto.MarketMemberCreatedEventPayload;
@@ -26,7 +28,7 @@ public class MarketFacade {
 
     private final MarketCreateProductUseCase marketCreateProductUseCase;
     private final MarketCreateCartUseCase marketCreateCartUseCase;
-
+    private final MarketCreateOrderUseCase marketCreateOrderUseCase;
 
     @Transactional
     public MarketMember syncMember(MemberJoinedEventPayload member) {
@@ -87,4 +89,13 @@ public class MarketFacade {
         return marketQuery.findProductById(id);
     }
 
+    @Transactional(readOnly = true)
+    public long ordersCount() {
+        return marketQuery.countOrders();
+    }
+
+    @Transactional
+    public RsData<Order> createOrder(Cart cart) {
+        return marketCreateOrderUseCase.createOrder(cart);
+    }
 }
