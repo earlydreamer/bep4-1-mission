@@ -1,7 +1,15 @@
 package com.back.boundedContext.cash.domain;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
 public class CashPolicy {
-        // HOLDING_MEMBER_ID = 홀딩 계죄를 가진 계정
-        public static final Long HOLDING_MEMBER_ID = 2L;
+        public static Long HOLDING_MEMBER_ID;
+
+        @Value("${custom.global.holdingMemberId}")
+        public void setHoldingMemberId(Long id) {
+                HOLDING_MEMBER_ID = id;
+        }
 }
 
