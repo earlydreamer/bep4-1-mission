@@ -10,6 +10,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+/**
+ * Market 컨텍스트의 조회 서비스
+ *
+ * <p>[설계 원칙]
+ * - Repository를 직접 노출하지 않고 필요한 조회 메서드만 제공
+ * - 복잡한 조회 로직이나 fetch join은 여기서 처리
+ */
 @Component
 @RequiredArgsConstructor
 public class MarketQuery {
@@ -40,6 +47,7 @@ public class MarketQuery {
         return orderRepository.count();
     }
 
-    public Optional<Order> findOrderById(Long id) {return orderRepository.findById(id);
+    public Optional<Order> findOrderById(Long id) {
+        return orderRepository.findById(id);
     }
 }

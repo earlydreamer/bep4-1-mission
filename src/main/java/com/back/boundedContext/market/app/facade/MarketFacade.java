@@ -101,8 +101,17 @@ public class MarketFacade {
         return marketQuery.findOrderById(id);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<Order> findOrderByIdWithBuyer(Long id) {
+        Optional<Order> orderOpt = marketQuery.findOrderById(id);
+        // readOnly 트랜잭션 내에서 buyer 프록시 초기화
+        orderOpt.ifPresent(order -> order.getBuyer().getNickname());
+        return orderOpt;
+    }
+
     @Transactional
     public void requestPayment(Order order, long pgPaymentAmount) {
+        // buyer는 이미 초기화되어 있어야 함
         order.requestPayment(pgPaymentAmount);
     }
 
