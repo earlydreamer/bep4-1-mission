@@ -17,7 +17,7 @@ public class PayoutItem extends BaseIdAndTime {
     @Enumerated(EnumType.STRING)
     private PayoutEventType eventType;
     String relTypeCode;
-    private int relId;
+    private Long relId;
     private LocalDateTime paymentDate;
     @ManyToOne(fetch = LAZY)
     private PayoutMember payer;
@@ -25,7 +25,7 @@ public class PayoutItem extends BaseIdAndTime {
     private PayoutMember payee;
     private long amount;
 
-    public PayoutItem(Payout payout, PayoutEventType eventType, String relTypeCode, int relId, LocalDateTime payDate, PayoutMember payer, PayoutMember payee, long amount) {
+    public PayoutItem(Payout payout, PayoutEventType eventType, String relTypeCode, Long relId, LocalDateTime payDate, PayoutMember payer, PayoutMember payee, long amount) {
         this.payout = payout;
         this.eventType = eventType;
         this.relTypeCode = relTypeCode;

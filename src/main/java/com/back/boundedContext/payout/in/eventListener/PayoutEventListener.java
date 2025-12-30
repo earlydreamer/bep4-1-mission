@@ -1,4 +1,4 @@
-package com.back.boundedContext.payout.in;
+package com.back.boundedContext.payout.in.eventListener;
 
 
 import com.back.boundedContext.payout.app.facade.PayoutFacade;

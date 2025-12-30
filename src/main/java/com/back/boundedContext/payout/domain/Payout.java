@@ -35,7 +35,7 @@ public class Payout extends BaseIdAndTime {
         this.payee = payee;
     }
 
-    public PayoutItem addItem(PayoutEventType eventType, String relTypeCode, int relId, LocalDateTime payDate, PayoutMember payer, PayoutMember payee, long amount) {
+    public PayoutItem addItem(PayoutEventType eventType, String relTypeCode, Long relId, LocalDateTime payDate, PayoutMember payer, PayoutMember payee, long amount) {
         PayoutItem payoutItem = new PayoutItem(
                 this, eventType, relTypeCode, relId, payDate, payer, payee, amount
         );
