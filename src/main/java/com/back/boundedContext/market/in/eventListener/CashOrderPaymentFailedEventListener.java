@@ -19,6 +19,8 @@ public class CashOrderPaymentFailedEventListener {
     @TransactionalEventListener(phase = AFTER_COMMIT)
     @Transactional(propagation = REQUIRES_NEW)
     public void handle(CashOrderPaymentFailedEvent event) {
-        marketFacade.handle(event);
+
+        Long orderId = event.getOrder().getId();
+        marketFacade.cancelOrderRequestPayment(orderId);
     }
 }

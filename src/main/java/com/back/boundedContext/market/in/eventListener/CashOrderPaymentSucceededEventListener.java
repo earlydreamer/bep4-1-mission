@@ -18,7 +18,7 @@ public class CashOrderPaymentSucceededEventListener {
     @TransactionalEventListener(phase = AFTER_COMMIT)
     @Transactional(propagation = REQUIRES_NEW)
     public void handle(CashOrderPaymentSucceededEvent event) {
-
-        marketFacade.handle(event);
+        Long orderId = event.getOrder().getId();
+        marketFacade.completeOrderPayment(orderId);
     }
 }

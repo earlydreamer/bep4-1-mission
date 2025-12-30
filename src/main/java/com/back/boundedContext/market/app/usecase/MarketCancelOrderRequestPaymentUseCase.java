@@ -2,7 +2,6 @@ package com.back.boundedContext.market.app.usecase;
 
 import com.back.boundedContext.market.domain.Order;
 import com.back.boundedContext.market.out.repository.OrderRepository;
-import com.back.shared.cash.event.CashOrderPaymentFailedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +10,8 @@ import org.springframework.stereotype.Service;
 public class MarketCancelOrderRequestPaymentUseCase {
     private final OrderRepository orderRepository;
 
-    public void handle(CashOrderPaymentFailedEvent event) {
-        Order order = orderRepository.findById(event.getOrder().getId()).get();
-
+    public void cancelRequestPayment(Long orderId) {
+        Order order = orderRepository.findById(orderId).get();
         order.cancelRequestPayment();
     }
 }
