@@ -1,6 +1,6 @@
 package com.back.shared.post.out;
 
-import com.back.shared.post.dto.PostResponseDto;
+import com.back.shared.post.dto.PostDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class PostApiClient {
                 .baseUrl(internalBackUrl + "/api/v1/post")
                 .build();
     }
-    public List<PostResponseDto> getItems() {
+    public List<PostDto> getItems() {
         return restClient.get()
                 .uri("/posts")
                 .retrieve()
@@ -28,7 +28,7 @@ public class PostApiClient {
                 });
     }
 
-    public PostResponseDto getItem(int id) {
+    public PostDto getItem(int id) {
         return restClient.get()
                 .uri("/posts/%d".formatted(id))
                 .retrieve()

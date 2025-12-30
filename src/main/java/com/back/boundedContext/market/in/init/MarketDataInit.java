@@ -5,7 +5,7 @@ import com.back.boundedContext.market.domain.Cart;
 import com.back.boundedContext.market.domain.MarketMember;
 import com.back.boundedContext.market.domain.Order;
 import com.back.boundedContext.market.domain.Product;
-import com.back.shared.post.dto.PostResponseDto;
+import com.back.shared.post.dto.PostDto;
 import com.back.shared.post.out.PostApiClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
@@ -112,14 +112,14 @@ public class MarketDataInit {
     public void makeBaseProducts() {
         if (marketFacade.productsCount() > 0) return;
 
-        List<PostResponseDto> posts = postApiClient.getItems();
+        List<PostDto> posts = postApiClient.getItems();
 
-        PostResponseDto post1 = posts.get(5);
-        PostResponseDto post2 = posts.get(4);
-        PostResponseDto post3 = posts.get(3);
-        PostResponseDto post4 = posts.get(2);
-        PostResponseDto post5 = posts.get(1);
-        PostResponseDto post6 = posts.get(0);
+        PostDto post1 = posts.get(5);
+        PostDto post2 = posts.get(4);
+        PostDto post3 = posts.get(3);
+        PostDto post4 = posts.get(2);
+        PostDto post5 = posts.get(1);
+        PostDto post6 = posts.get(0);
 
         MarketMember user1MarketMember = marketFacade.findMemberByUsername("user1").get();
         MarketMember user2MarketMember = marketFacade.findMemberByUsername("user2").get();
@@ -127,7 +127,7 @@ public class MarketDataInit {
 
         Product product1 = marketFacade.createProduct(
                 user1MarketMember,
-                "Post",
+                post1.getModelTypeCode(),
                 post1.getId(),
                 post1.getTitle(),
                 post1.getContent(),
@@ -137,7 +137,7 @@ public class MarketDataInit {
 
         Product product2 = marketFacade.createProduct(
                 user1MarketMember,
-                "Post",
+                post2.getModelTypeCode(),
                 post2.getId(),
                 post2.getTitle(),
                 post2.getContent(),
@@ -147,7 +147,7 @@ public class MarketDataInit {
 
         Product product3 = marketFacade.createProduct(
                 user1MarketMember,
-                "Post",
+                post3.getModelTypeCode(),
                 post3.getId(),
                 post3.getTitle(),
                 post3.getContent(),
