@@ -1,6 +1,5 @@
 package com.back.shared.market.dto;
 
-import com.back.boundedContext.market.domain.Order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -51,26 +50,4 @@ public class OrderDto {
     private final LocalDateTime requestPaymentDate;
     private final LocalDateTime paymentDate;
 
-    /**
-     * Order 엔티티로부터 DTO를 생성합니다.
-     *
-     * <p>[주의] order.getBuyer()가 초기화되어 있어야 합니다.
-     * LazyInitializationException 방지를 위해 트랜잭션 내에서 호출하세요.
-     *
-     * @param order 주문 엔티티
-     * @throws org.hibernate.LazyInitializationException buyer가 초기화되지 않았고 세션이 없는 경우
-     */
-    public OrderDto(Order order) {
-        this(
-                order.getId(),
-                order.getCreatedAt(),
-                order.getUpdatedAt(),
-                order.getBuyer().getId(),
-                order.getBuyer().getNickname(),
-                order.getPrice(),
-                order.getSalePrice(),
-                order.getRequestPaymentDate(),
-                order.getPaymentDate()
-        );
-    }
 }

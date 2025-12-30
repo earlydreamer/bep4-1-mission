@@ -1,6 +1,7 @@
 package com.back.boundedContext.post.domain;
 
 import com.back.global.jpa.entity.BaseIdAndTime;
+import com.back.shared.post.dto.PostDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -26,5 +27,19 @@ public class Post extends BaseIdAndTime {
         this.author = author;
         this.content = content;
     }
+
+
+    public PostDto toDto() {
+        return new PostDto(
+                getId(),
+                getCreatedAt(),
+                getUpdatedAt(),
+                author.getId(),
+                author.getNickname(),
+                title,
+                content
+        );
+    }
+
 
 }

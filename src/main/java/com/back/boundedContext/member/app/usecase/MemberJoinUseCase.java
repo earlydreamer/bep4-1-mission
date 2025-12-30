@@ -4,7 +4,6 @@ import com.back.boundedContext.member.domain.Member;
 import com.back.boundedContext.member.out.repository.MemberRepository;
 import com.back.global.exception.DomainException;
 import com.back.global.rsData.RsData;
-import com.back.shared.member.dto.MemberDto;
 import com.back.shared.member.event.MemberJoinedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,7 @@ public class MemberJoinUseCase {
 
         //등록 사실을 이벤트로 고지
         // (이벤트는 여기서 발생시키고, 각각의 위치에 있는 MemberJoinEventListener에서 감지해 로직을 실행한다)
-        eventPublisher.publish(new MemberJoinedEvent(new MemberDto(member)));
+        eventPublisher.publish(new MemberJoinedEvent(member.toDto()));
 
         return new RsData<>("201-1", "%d번 회원이 생성되었습니다.".formatted(member.getId()), member);
     }

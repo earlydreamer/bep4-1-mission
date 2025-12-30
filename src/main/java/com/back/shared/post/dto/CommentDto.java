@@ -1,6 +1,5 @@
 package com.back.shared.post.dto;
 
-import com.back.boundedContext.post.domain.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -32,16 +31,5 @@ public class CommentDto {
     private final String authorName;
     private final String content;
 
-    public CommentDto(Comment comment) {
-        this(
-                comment.getId(),
-                comment.getCreatedAt(),
-                comment.getUpdatedAt(),
-                comment.getPost().getId(),
-                comment.getAuthor().getId(),
-                comment.getAuthor().getNickname(),
-                comment.getContent()
-        );
-    }
 }
 

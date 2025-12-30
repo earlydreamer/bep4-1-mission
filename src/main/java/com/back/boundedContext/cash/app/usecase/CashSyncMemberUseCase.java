@@ -3,9 +3,8 @@ package com.back.boundedContext.cash.app.usecase;
 import com.back.boundedContext.cash.domain.CashMember;
 import com.back.boundedContext.cash.out.repository.CashMemberRepository;
 import com.back.global.eventPublisher.EventPublisher;
-import com.back.shared.cash.dto.CashMemberDto;
-import com.back.shared.member.dto.MemberDto;
 import com.back.shared.cash.event.CashMemberCreatedEvent;
+import com.back.shared.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,10 +56,11 @@ public class CashSyncMemberUseCase {
         if (isNew) {
             eventPublisher.publish(
                     new CashMemberCreatedEvent(
-                            new CashMemberDto(cashMember)
+                            cashMember.toDto()
                     )
             );
         }
+
 
         return cashMember;
     }

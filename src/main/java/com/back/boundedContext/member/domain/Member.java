@@ -27,11 +27,25 @@ public class Member extends SourceMember {
         if (amount == 0) return;
         setActivityScore(getActivityScore() + amount);
         // 도메인이 직접 자신의 변경을 알림 (DDD 원칙)
-        publishEvent(new MemberUpdatedEvent(new MemberDto(this)));
+        publishEvent(new MemberUpdatedEvent(toDto()));
     }
-    
+
 
     public Member(String username, String password, String nickname) {
         super(username, password, nickname);
     }
+
+
+    public MemberDto toDto() {
+        return new MemberDto(
+                getId(),
+                getCreatedAt(),
+                getUpdatedAt(),
+                getUsername(),
+                getNickname(),
+                getActivityScore()
+        );
+    }
+
+
 }

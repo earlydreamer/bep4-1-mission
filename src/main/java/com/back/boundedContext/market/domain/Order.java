@@ -109,6 +109,20 @@ public class Order extends BaseIdAndTime {
         salePrice += product.getSalePrice();
     }
 
+    public OrderDto toDto() {
+        return new OrderDto(
+                getId(),
+                getCreatedAt(),
+                getUpdatedAt(),
+                buyer.getId(),
+                buyer.getNickname(),
+                price,
+                salePrice,
+                requestPaymentDate,
+                paymentDate
+        );
+    }
+
     /**
      * 결제를 완료 처리합니다.
      *
@@ -148,7 +162,7 @@ public class Order extends BaseIdAndTime {
 
         publishEvent(
                 new MarketOrderPaymentRequestedEvent(
-                        new OrderDto(this),
+                        toDto(),
                         pgPaymentAmount
                 )
         );

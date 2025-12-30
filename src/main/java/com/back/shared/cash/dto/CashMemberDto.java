@@ -1,6 +1,5 @@
 package com.back.shared.cash.dto;
 
-import com.back.boundedContext.cash.domain.CashMember;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -31,15 +30,5 @@ public class CashMemberDto {
     private final String nickname;
     private final int activityScore;
 
-    public CashMemberDto(CashMember cashMember) {
-        this(
-                cashMember.getId(),
-                cashMember.getCreatedAt(),
-                cashMember.getUpdatedAt(),
-                cashMember.getUsername(),
-                cashMember.getNickname(),
-                cashMember.getActivityScore()
-        );
-    }
 }
 
