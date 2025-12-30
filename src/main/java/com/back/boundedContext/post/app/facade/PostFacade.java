@@ -7,8 +7,7 @@ import com.back.boundedContext.post.domain.Post;
 import com.back.boundedContext.post.domain.PostMember;
 import com.back.boundedContext.post.out.repository.PostMemberRepository;
 import com.back.global.rsData.RsData;
-import com.back.shared.member.dto.MemberJoinedEventPayload;
-import com.back.shared.post.dto.MemberUpdatedEventPayload;
+import com.back.shared.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,12 +52,7 @@ public class PostFacade {
     }
 
     @Transactional
-    public PostMember syncMember(MemberJoinedEventPayload member) {
-        return postSyncUseCase.syncMember(member);
-    }
-
-    @Transactional
-    public PostMember syncMember(MemberUpdatedEventPayload member) {
+    public PostMember syncMember(MemberDto member) {
         return postSyncUseCase.syncMember(member);
     }
 

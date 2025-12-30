@@ -10,26 +10,24 @@ import org.springframework.transaction.event.TransactionalEventListener;
 import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
 import static org.springframework.transaction.event.TransactionPhase.AFTER_COMMIT;
 
-@Component("postMemberJoinEventListener") //eventListener가 같은 이름일 경우 Bean 충돌이 발생할 수 있다. 명시적으로 이름 넣어주기
+/**
+ * MemberJoinedEvent를 수신하여 Post 컨텍스트에 Member를 동기화하는 리스너
+ *
+ * [설계 원칙]
+ * - event.getMember()는 MemberDto를 반환 (도메인 기반 공유 DTO)
+ * - MemberJoinedEvent, MemberUpdatedEvent 모두 동일한 MemberDto 구조 사용
+ * - 신규/갱신 판단은 PostSyncUseCase에서 JPA merge로 처리
+ */
+@Component("postMemberJoinEventListener")
 @RequiredArgsConstructor
 public class MemberJoinEventListener {
     private final PostFacade postFacade;
 
-    /**
-     * MemberJoinEvent가 발생했을 때 Post측에서 동작하는 내용에 대해 정의하므로, Post.in에 위치한다.
-     * MemberJoinEvent가 다른 도메인에 존재할 수 있다. 패키지명으로 구분되므로 클래스명이 같아도 상관은 없다.
-     * 신규 추가된 Member를 받아서 ReplicaMember에 복제한다.
-     * 복제할 ReplicaMember 엔티티 : PostMember
-     * event에 담긴 MemberJoinedEventPayload의 값을 기반으로 PostMember 생성한다.
-     *
-     * @param event
-     */
     @TransactionalEventListener(phase = AFTER_COMMIT)
     @Transactional(propagation = REQUIRES_NEW)
     public void handle(MemberJoinedEvent event) {
         postFacade.syncMember(event.getMember());
     }
-
 
 }
 

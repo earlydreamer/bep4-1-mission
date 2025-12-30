@@ -2,12 +2,13 @@ package com.back.boundedContext.cash.app.facade;
 
 import com.back.boundedContext.cash.app.query.CashMemberQuery;
 import com.back.boundedContext.cash.app.query.WalletQuery;
+import com.back.boundedContext.cash.app.usecase.CashCompleteOrderPaymentUseCase;
 import com.back.boundedContext.cash.app.usecase.CashCreateWalletUseCase;
 import com.back.boundedContext.cash.app.usecase.CashSyncMemberUseCase;
 import com.back.boundedContext.cash.domain.CashMember;
 import com.back.boundedContext.cash.domain.Wallet;
-import com.back.shared.member.dto.MemberJoinedEventPayload;
-import com.back.shared.post.dto.MemberUpdatedEventPayload;
+import com.back.shared.market.event.MarketOrderPaymentRequestedEvent;
+import com.back.shared.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ public class CashFacade {
 
     private final CashCreateWalletUseCase cashCreateWalletUseCase;
     private final CashSyncMemberUseCase cashSyncMemberUseCase;
+    private final CashCompleteOrderPaymentUseCase cashCompleteOrderPaymentUseCase;
 
     @Transactional
     public Wallet createWallet(CashMember holder) {
@@ -47,13 +49,14 @@ public class CashFacade {
     }
 
     @Transactional
-    public CashMember syncMember(MemberJoinedEventPayload member) {
+    public CashMember syncMember(MemberDto member) {
         return cashSyncMemberUseCase.syncMember(member);
     }
 
     @Transactional
-    public CashMember syncMember(MemberUpdatedEventPayload member) {
-        return cashSyncMemberUseCase.syncMember(member);
+    public void handle(MarketOrderPaymentRequestedEvent event) {
+        cashCompleteOrderPaymentUseCase.handle(event);
     }
+
 
 }

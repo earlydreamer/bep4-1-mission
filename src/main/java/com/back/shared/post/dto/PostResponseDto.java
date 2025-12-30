@@ -7,6 +7,10 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+/**
+ * API 용 응답 DTO(PostResponse)
+ * TODO: 각 필드 설명 추가
+ */
 @AllArgsConstructor(onConstructor_ = @JsonCreator(mode = JsonCreator.Mode.PROPERTIES))
 @Getter
 public class PostResponseDto {

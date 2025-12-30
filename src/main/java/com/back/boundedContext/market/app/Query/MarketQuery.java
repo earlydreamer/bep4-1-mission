@@ -2,6 +2,7 @@ package com.back.boundedContext.market.app.Query;
 
 import com.back.boundedContext.market.domain.Cart;
 import com.back.boundedContext.market.domain.MarketMember;
+import com.back.boundedContext.market.domain.Order;
 import com.back.boundedContext.market.domain.Product;
 import com.back.boundedContext.market.out.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,8 @@ public class MarketQuery {
 
     public long countOrders() {
         return orderRepository.count();
+    }
+
+    public Optional<Order> findOrderById(Long id) {return orderRepository.findById(id);
     }
 }

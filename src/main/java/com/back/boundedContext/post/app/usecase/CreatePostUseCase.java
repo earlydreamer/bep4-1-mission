@@ -8,7 +8,7 @@ import com.back.boundedContext.post.out.repository.CommentRepository;
 import com.back.boundedContext.post.out.repository.PostRepository;
 import com.back.global.eventPublisher.EventPublisher;
 import com.back.global.rsData.RsData;
-import com.back.shared.post.dto.PostCreatedEventPayload;
+import com.back.shared.post.dto.PostDto;
 import com.back.shared.post.event.PostCreatedEvent;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class CreatePostUseCase {
         String randomSecureTip = memberApiClient.getRandomSecureTip(); //API 사용하게 변경
 
         //이벤트 발행. 이후의 동작은 이벤트가 담당한다.
-        eventPublisher.publish(new PostCreatedEvent(new PostCreatedEventPayload(post)));
+        eventPublisher.publish(new PostCreatedEvent(new PostDto(post)));
         return new RsData<>(
                 "201-1",
                 "%d번 글이 생성되었습니다. 보안 팁 : %s"

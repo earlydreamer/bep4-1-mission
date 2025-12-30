@@ -7,6 +7,9 @@ import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
+/**
+ * Post 외부 API 호출용 클라이언트
+ */
 @Service
 public class PostApiClient {
     private final RestClient restClient = RestClient.builder()

@@ -1,6 +1,7 @@
 package com.back.boundedContext.cash.app.query;
 
 import com.back.boundedContext.cash.domain.CashMember;
+import com.back.boundedContext.cash.domain.CashPolicy;
 import com.back.boundedContext.cash.domain.Wallet;
 import com.back.boundedContext.cash.out.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,4 +22,11 @@ public class WalletQuery {
         return walletRepository.findByHolder(holder);
     }
 
+    public Optional<Wallet> findWalletByHolderId(Long holderId) {
+        return walletRepository.findByHolderId(holderId);
+    }
+
+    public Optional<Wallet> findHoldingWallet() {
+        return walletRepository.findByHolderId(CashPolicy.HOLDING_MEMBER_ID);
+    }
 }

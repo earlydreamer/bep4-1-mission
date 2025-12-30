@@ -1,18 +1,16 @@
 package com.back.boundedContext.market.app.facade;
 
 import com.back.boundedContext.market.app.Query.MarketQuery;
-import com.back.boundedContext.market.app.usecase.MarketCreateCartUseCase;
-import com.back.boundedContext.market.app.usecase.MarketCreateOrderUseCase;
-import com.back.boundedContext.market.app.usecase.MarketCreateProductUseCase;
-import com.back.boundedContext.market.app.usecase.MarketSyncMemberUseCase;
+import com.back.boundedContext.market.app.usecase.*;
 import com.back.boundedContext.market.domain.Cart;
 import com.back.boundedContext.market.domain.MarketMember;
 import com.back.boundedContext.market.domain.Order;
 import com.back.boundedContext.market.domain.Product;
 import com.back.global.rsData.RsData;
-import com.back.shared.market.dto.MarketMemberCreatedEventPayload;
-import com.back.shared.member.dto.MemberJoinedEventPayload;
-import com.back.shared.post.dto.MemberUpdatedEventPayload;
+import com.back.shared.cash.event.CashOrderPaymentFailedEvent;
+import com.back.shared.cash.event.CashOrderPaymentSucceededEvent;
+import com.back.shared.market.dto.MarketMemberDto;
+import com.back.shared.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,13 +28,11 @@ public class MarketFacade {
     private final MarketCreateCartUseCase marketCreateCartUseCase;
     private final MarketCreateOrderUseCase marketCreateOrderUseCase;
 
-    @Transactional
-    public MarketMember syncMember(MemberJoinedEventPayload member) {
-        return marketSyncMemberUseCase.syncMember(member);
-    }
+    private final MarketCompleteOrderPaymentUseCase marketCompleteOrderPaymentUseCase;
+    private final MarketCancelOrderRequestPaymentUseCase marketCancelOrderRequestPaymentUseCase;
 
     @Transactional
-    public MarketMember syncMember(MemberUpdatedEventPayload member) {
+    public MarketMember syncMember(MemberDto member) {
         return marketSyncMemberUseCase.syncMember(member);
     }
 
@@ -75,7 +71,7 @@ public class MarketFacade {
 
 
     @Transactional
-    public RsData<Cart> createCart(MarketMemberCreatedEventPayload buyer) {
+    public RsData<Cart> createCart(MarketMemberDto buyer) {
         return marketCreateCartUseCase.createCart(buyer);
     }
 
@@ -98,4 +94,26 @@ public class MarketFacade {
     public RsData<Order> createOrder(Cart cart) {
         return marketCreateOrderUseCase.createOrder(cart);
     }
+
+
+    @Transactional(readOnly = true)
+    public Optional<Order> findOrderById(Long id) {
+        return marketQuery.findOrderById(id);
+    }
+
+    @Transactional
+    public void requestPayment(Order order, long pgPaymentAmount) {
+        order.requestPayment(pgPaymentAmount);
+    }
+
+    @Transactional
+    public void handle(CashOrderPaymentSucceededEvent event) {
+        marketCompleteOrderPaymentUseCase.handle(event);
+    }
+
+    @Transactional
+    public void handle(CashOrderPaymentFailedEvent event) {
+        marketCancelOrderRequestPaymentUseCase.handle(event);
+    }
+
 }

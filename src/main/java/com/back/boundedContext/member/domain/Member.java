@@ -2,7 +2,7 @@ package com.back.boundedContext.member.domain;
 
 
 import com.back.shared.member.domain.SourceMember;
-import com.back.shared.post.dto.MemberUpdatedEventPayload;
+import com.back.shared.member.dto.MemberDto;
 import com.back.shared.member.event.MemberUpdatedEvent;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -27,7 +27,7 @@ public class Member extends SourceMember {
         if (amount == 0) return;
         setActivityScore(getActivityScore() + amount);
         // 도메인이 직접 자신의 변경을 알림 (DDD 원칙)
-        publishEvent(new MemberUpdatedEvent(new MemberUpdatedEventPayload(this)));
+        publishEvent(new MemberUpdatedEvent(new MemberDto(this)));
     }
     
 
