@@ -27,4 +27,9 @@ public abstract class BaseMember extends BaseEntity {
         this.nickname = nickname;
         this.activityScore = 0; // 디폴트 값이 0이므로 명시적으로 초기화하도록
     }
+
+    public boolean isSystem() {
+        return "system".equals(username);
+    }
+
 }
